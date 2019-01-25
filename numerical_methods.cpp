@@ -61,7 +61,7 @@ void newton(double lb, double ub, double precision, long long max_iter){
     long long k=0;
     double x=lb;
     while(abs(func(x))>precision&&k<max_iter){
-        cout << x <<' '<<f(x)<< "\n";
+        //cout << x <<' '<<f(x)<< "\n";
         x=x-f(x)/derivative(x);
         if(func(x)==0){
             result(x,k);
