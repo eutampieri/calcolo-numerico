@@ -220,56 +220,68 @@ class Logarithmic : public DerivableFunction
         base = b;
     }
 };
-class Polynomial: public DerivableFunction
+class Polynomial : public DerivableFunction
 {
   protected:
     double coefficients[11];
     int order;
 
   public:
-    double func(double x){
+    double func(double x)
+    {
         double res = 0;
-        for (int i = 0; i <= order; i++){
+        for (int i = 0; i <= order; i++)
+        {
             double exp = 1;
-            for (int _ = 0; _ < i; _++){
+            for (int _ = 0; _ < i; _++)
+            {
                 exp *= x;
             }
             res += exp * coefficients[i];
         }
         return res;
     }
-    double derivative(double x){
+    double derivative(double x)
+    {
         double res = 0;
-        for (int i = 1; i <= order; i++){
+        for (int i = 1; i <= order; i++)
+        {
             double exp = i;
-            for (int _ = 1; _ < i; _++){
+            for (int _ = 1; _ < i; _++)
+            {
                 exp *= x;
             }
             res += exp * coefficients[i];
         }
         return res;
     }
-    Polynomial(){
+    Polynomial()
+    {
         FILE *f = fopen("func.dat", "r");
         fscanf(f, "%d", &order);
-        for (int i = 0; i <= order;i++){
+        for (int i = 0; i <= order; i++)
+        {
             fscanf(f, "%lf", &coefficients[i]);
         }
     }
 };
 
-class Linear: public Polynomial{
-    public:
-    Linear(double m, double q){
+class Linear : public Polynomial
+{
+  public:
+    Linear(double m, double q)
+    {
         order = 1;
         coefficients[0] = q;
         coefficients[1] = m;
     }
 };
 
-class Quadratic: public Polynomial{
-    public:
-    Quadratic(double a, double b, double c){
+class Quadratic : public Polynomial
+{
+  public:
+    Quadratic(double a, double b, double c)
+    {
         order = 2;
         coefficients[0] = c;
         coefficients[1] = b;
@@ -277,9 +289,11 @@ class Quadratic: public Polynomial{
     }
 };
 
-class Cubic: public Polynomial{
-    public:
-    Cubic(double a, double b, double c, double d){
+class Cubic : public Polynomial
+{
+  public:
+    Cubic(double a, double b, double c, double d)
+    {
         order = 3;
         coefficients[0] = d;
         coefficients[1] = c;
