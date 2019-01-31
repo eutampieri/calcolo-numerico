@@ -1,11 +1,11 @@
 #include <iostream>
 #include <cmath>
+#include "polynomial.hpp"
 
-//#region [rgba(63,32,127,0.7)]
-#include "es1.h"
-//#include "es2.h"
-//#endregion
+Polynomial fun;
 
+#define func fun.func
+#define derivative fun.derivative
 #define f func
 
 using namespace std;
@@ -74,6 +74,7 @@ void newton(double lb, double ub, double precision, long long max_iter){
 //#endregion
 
 int main(){
+    fun = Polynomial();
     char choice;
     double left=-1e2,right=2e2, threshold=1e-7;
     long long calc_limit=1e8;
