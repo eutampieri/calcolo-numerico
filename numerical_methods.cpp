@@ -11,7 +11,7 @@ void result(RootFindingResult res){
 //#endregion
 
 int main(){
-    Polynomial fun = Polynomial();
+    Polynomial fun = Polynomial("func.dat");
     // Quadratic q = Quadratic(1.0,-2.0,1.0);
     // Polynomial p = Polynomial();
     // DerivableCompositeFunction fun = DerivableCompositeFunction(&q, &p);
@@ -20,12 +20,22 @@ int main(){
     double left=-1e2,right=2e2, threshold=1e-7;
     long long calc_limit=1e8;
     cout << "--- Numerical Methods ---\n";
-    cout << "Leftmost point of the interval: ";
-    cin >> left;
-    cout << "Rightmost point of the interval: ";
-    cin >> right;
     cout << "=========================\n     Choose a method     \n=========================\n\t[b] for bisection method\n\t[s] for the secant method\n\t[n] for Newton's method\nYour choice: ";
     cin >> choice;
+    switch(choice){
+        case 'n':
+        cout << "Your guess: ";
+        cin >> left;
+        break;
+        case 'b':
+        case 's':
+        cout << "Leftmost point of the interval: ";
+        cin >> left;
+        cout << "Rightmost point of the interval: ";
+        cin >> right;
+        break;
+
+    }
     switch(choice){
     case 'b':
         result(fun.findRootBisection(left, right, threshold, calc_limit));
@@ -34,7 +44,7 @@ int main(){
         result(fun.findRootSecant(left, right, threshold, calc_limit));
         break;
     case 'n':
-        result(fun.findRootNewton(left, right, threshold, calc_limit));
+        result(fun.findRootNewton(left, threshold, calc_limit));
         break;
     default:
         cout << "Invalid selection. Have a good day!";

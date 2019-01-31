@@ -80,10 +80,10 @@ class DerivableFunction : public Function
 {
   public:
     virtual double derivative(double x) = 0;
-    RootFindingResult findRootNewton(double lb, double ub, double precision, long long max_iter)
+    RootFindingResult findRootNewton(double guess, double precision, long long max_iter)
     {
         long long k = 0;
-        double x = lb;
+        double x = guess;
         RootFindingResult final_result;
         while (abs(func(x)) > precision && k < max_iter)
         {
@@ -255,9 +255,10 @@ class Polynomial : public DerivableFunction
         }
         return res;
     }
-    Polynomial()
+    Polynomial(){}
+    Polynomial(char *filename)
     {
-        FILE *f = fopen("func.dat", "r");
+        FILE *f = fopen(filename, "r");
         fscanf(f, "%d", &order);
         for (int i = 0; i <= order; i++)
         {

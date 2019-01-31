@@ -7,3 +7,4 @@ func.dat
 *.aux
 *.log
 *.toc
+*.out
