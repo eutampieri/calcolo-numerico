@@ -5,7 +5,7 @@
 using namespace std;
 
 //#region [rgba(0,0,150,0.15)]
-void result(RootFindingResult res){
+void result(PointSearchResult res){
     cout << "A root has "<<(res.found?"":"not ")<<"been found in "<<res.iter<<" iterations: f("<<res.x<<")="<<res.y<<'\n';
 }
 //#endregion

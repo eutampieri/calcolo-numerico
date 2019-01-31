@@ -1,7 +1,7 @@
 #include <cmath>
 #include <stdio.h>
 
-struct RootFindingResult
+struct PointSearchResult
 {
     double x;
     double y;
@@ -13,11 +13,11 @@ class Function
 {
   public:
     virtual double func(double x) = 0;
-    RootFindingResult findRootBisection(double lb, double ub, double precision, long long max_iter)
+    PointSearchResult findRootBisection(double lb, double ub, double precision, long long max_iter)
     {
         long long k = 0;
         double x = (ub + lb) / 2;
-        RootFindingResult final_result;
+        PointSearchResult final_result;
         while (abs(func(x)) > precision && k < max_iter)
         {
             x = (ub + lb) / 2;
@@ -45,12 +45,12 @@ class Function
         final_result.y = func(final_result.x);
         return final_result;
     }
-    RootFindingResult findRootSecant(double lb, double ub, double precision, long long max_iter)
+    PointSearchResult findRootSecant(double lb, double ub, double precision, long long max_iter)
     {
         long long k = 0;
         double x0 = lb;
         double x1 = ub, x2;
-        RootFindingResult final_result;
+        PointSearchResult final_result;
         while (abs(func(x0)) > precision && k < max_iter)
         {
             double m = (func(x1) - func(x0)) / (x1 - x0);
@@ -80,11 +80,11 @@ class DerivableFunction : public Function
 {
   public:
     virtual double derivative(double x) = 0;
-    RootFindingResult findRootNewton(double guess, double precision, long long max_iter)
+    PointSearchResult findRootNewton(double guess, double precision, long long max_iter)
     {
         long long k = 0;
         double x = guess;
-        RootFindingResult final_result;
+        PointSearchResult final_result;
         while (abs(func(x)) > precision && k < max_iter)
         {
             //cout << x <<' '<<f(x)<< "\n";
@@ -256,6 +256,12 @@ class Polynomial : public DerivableFunction
         return res;
     }
     Polynomial(){}
+    Polynomial(int p_order, double *p_coefficients){
+        order = p_order;
+        for(int i=0; i<=order;i++){
+            coefficients[i] = *(p_coefficients+i);
+        }
+    }
     Polynomial(char *filename)
     {
         FILE *f = fopen(filename, "r");
