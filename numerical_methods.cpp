@@ -11,11 +11,11 @@ void result(RootFindingResult res){
 //#endregion
 
 int main(){
-    //Polynomial fun = Polynomial();
-    Quadratic q = Quadratic(1.0,-2.0,1.0);
-    Polynomial p = Polynomial();
-    DerivableCompositeFunction fun = DerivableCompositeFunction(&q, &p);
-    cout << fun.func(3);
+    Polynomial fun = Polynomial();
+    // Quadratic q = Quadratic(1.0,-2.0,1.0);
+    // Polynomial p = Polynomial();
+    // DerivableCompositeFunction fun = DerivableCompositeFunction(&q, &p);
+    // cout << fun.func(3);
     char choice;
     double left=-1e2,right=2e2, threshold=1e-7;
     long long calc_limit=1e8;
