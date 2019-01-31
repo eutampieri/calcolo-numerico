@@ -3,3 +3,7 @@ numerical_methods
 *.exe
 funcgen
 func.dat
+.vscode
+*.aux
+*.log
+*.toc

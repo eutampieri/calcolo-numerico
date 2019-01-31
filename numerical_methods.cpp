@@ -1,80 +1,21 @@
 #include <iostream>
 #include <cmath>
-#include "polynomial.hpp"
-
-Polynomial fun;
-
-#define func fun.func
-#define derivative fun.derivative
-#define f func
+#include "functions.hpp"
 
 using namespace std;
 
 //#region [rgba(0,0,150,0.15)]
-void result(double x, long long iter, bool found){
-    cout << "A root has "<<(found?"":"not ")<<"been found in "<<iter<<" iterations: f("<<x<<")="<<func(x)<<'\n';
-}
-void result(double x, long long iter){
-    result(x,iter,true);
-}
-//#endregion
-
-//#region [rgba(0,155,57,0.25)]
-void bisection(double lb, double ub, double precision, long long max_iter){
-    long long k=0;
-    double x=lb;
-    while(abs(func(x))>precision&&k<max_iter){
-        x=(ub+lb)/2;
-        if(func(x)==0){
-            result(x,k);
-            return;
-        }
-        if(func(x)*func(ub)<0){
-            lb=x;
-        } else{
-            ub=x;
-        }
-        k++;
-    }
-    result(((lb+ub)/2), k, k<max_iter);
-}
-void secant(double lb, double ub, double precision, long long max_iter){
-    long long k=0;
-    double x0=lb;
-    double x1=ub, x2;
-    while(abs(func(x0))>precision&&k<max_iter){
-        double m = (f(x1)-f(x0))/(x1-x0);
-        //cout <<m<<' '<< x0 <<' '<<f(x0)<< "\n";
-        x2=x1-f(x1)/m;
-        if(func(x2)==0){
-            result(x2,k);
-            return;
-        }
-        k++;
-        x0=x1;
-        x1=x2;
-    }
-    result(x2, k, k<max_iter);
-
-}
-void newton(double lb, double ub, double precision, long long max_iter){
-    long long k=0;
-    double x=lb;
-    while(abs(func(x))>precision&&k<max_iter){
-        //cout << x <<' '<<f(x)<< "\n";
-        x=x-f(x)/derivative(x);
-        if(func(x)==0){
-            result(x,k);
-            return;
-        }
-        k++;
-    }
-    result(x, k, k<max_iter);
+void result(RootFindingResult res){
+    cout << "A root has "<<(res.found?"":"not ")<<"been found in "<<res.iter<<" iterations: f("<<res.x<<")="<<res.y<<'\n';
 }
 //#endregion
 
 int main(){
-    fun = Polynomial();
+    //Polynomial fun = Polynomial();
+    Quadratic q = Quadratic(1.0,-2.0,1.0);
+    Polynomial p = Polynomial();
+    DerivableCompositeFunction fun = DerivableCompositeFunction(&q, &p);
+    cout << fun.func(3);
     char choice;
     double left=-1e2,right=2e2, threshold=1e-7;
     long long calc_limit=1e8;
@@ -87,13 +28,13 @@ int main(){
     cin >> choice;
     switch(choice){
     case 'b':
-        bisection(left,right,threshold, calc_limit);
+        result(fun.findRootBisection(left, right, threshold, calc_limit));
         break;
     case 's':
-        secant(left,right,threshold, calc_limit);
+        result(fun.findRootSecant(left, right, threshold, calc_limit));
         break;
     case 'n':
-        newton(left,right,threshold, calc_limit);
+        result(fun.findRootNewton(left, right, threshold, calc_limit));
         break;
     default:
         cout << "Invalid selection. Have a good day!";
