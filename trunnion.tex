@@ -1,0 +1,62 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[top=2cm,bottom=2cm,left=2cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{listings}
+
+\lstset{
+  language=C++,                % choose the language of the code
+  numbers=left,                   % where to put the line-numbers
+  stepnumber=1,                   % the step between two line-numbers.        
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=b,                   % sets the caption-position to bottom
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=true,         % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                 % show the filename of files included with \lstinputlisting;
+}
+
+\title{Solving a Nonlinear Equation - Mechanical Engineering}
+\author{Lucia Mingotti, Giacomo Sentimenti, Eugenio Tampieri, Kilian Ziegler}
+%\renewcommand{\arraystretch}{1.5}
+\begin{document}
+\maketitle
+\section{Problem}
+    \par A trunnion has to be cooled before it is shrink fitted into a steel hub.
+    \par We are given the equation to find out at which temperature we need to cool down the trunnion in order to get the desired shrinking.
+    \begin{equation}
+        f(T_f) = -0,50598\cdot 10^{-10}T_f^3 + 0,38292 \cdot 10^-7T_f^2+0,74363\cdot 10^-4 T_f + 0,88318\cdot 10^-2
+    \end{equation}
+\section{Solution}
+    \par To solve the problem we have to find a solution to equation 1. In order to do this, we can do it by using a computer algorithm that uses one of the following methods:
+    \begin{itemize}
+        \item Newton's method
+        \item Bisection method
+        \item Secants method
+    \end{itemize}
+    The code is reported below.
+    \lstinputlisting{trunnion.cpp}
+\section{Discussion}
+    \par Firstly, we have applied all methods with $T_{f0} \in [-130;-110]$, taking the leftmost poiint as the initial guess for Newton's method. The output follows.
+    \begin{verbatim}
+Newton's method: A root has been found in 1 iterations: f(-128.753)=9.00726e-08
+Bisection method: A root has been found in 4 iterations: f(-129.375)=-3.84176e-05
+Secants method: A root has been found in 2 iterations: f(-128.755)=-2.21485e-08
+    \end{verbatim}
+    \par Then, we chose this interval: $T_{f0} \in [-1\cdot 10^3;1\cdot 10^3]$.
+    \begin{verbatim}
+Newton's method: A root has been found in 3 iterations: f(-802.927)=1.8381e-06
+Bisection method: A root has been found in 9 iterations: f(-126.953)=0.00011187
+Secants method: A root has been found in 7 iterations: f(1688.45)=1.86587e-11
+    \end{verbatim}
+    \par Then, we chose this interval: $T_{f0} \in [-5\cdot 10^2;1]$.
+    \begin{verbatim}
+Newton's method: A root has been found in 10 iterations: f(-802.905)=2.46225e-09
+Bisection method: A root has been found in 10 iterations: f(-128.898)=-8.86823e-06
+Secants method: A root has been found in 5 iterations: f(-128.755)=-2.86784e-10
+    \end{verbatim}
+    \par From the listings above, we can observe that the Newton's algorithm converges typically faster, usually followed by the secants' and by bisection. Also, by increasing the interval the algorithms converge to different roots. Therefore, to make the search effective, we should place boundaries lowerly limited by the minimum value we can reach and superiorly limited by the initial temperature of the trunnion, since we want to cool it down, thus excluding the solutions greater than the starting temperature.
+\end{document}

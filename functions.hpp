@@ -45,7 +45,7 @@ class Function
         final_result.y = func(final_result.x);
         return final_result;
     }
-    PointSearchResult findRootSecant(double lb, double ub, double precision, long long max_iter)
+    PointSearchResult findRootSecants(double lb, double ub, double precision, long long max_iter)
     {
         long long k = 0;
         double x0 = lb;
@@ -416,7 +416,7 @@ class ReciprocalDerivableFunction: public DerivableFunction{
         f=function;
     }
     double func(double x){
-        return 1.0/f1->func(x)*f2->func(x);
+        return 1.0/f->func(x);
     }
     double derivative(double x){
         return -(f->derivative(x))/(f->func(x)*f->func(x));

@@ -41,7 +41,7 @@ int main(){
         result(fun.findRootBisection(left, right, threshold, calc_limit));
         break;
     case 's':
-        result(fun.findRootSecant(left, right, threshold, calc_limit));
+        result(fun.findRootSecants(left, right, threshold, calc_limit));
         break;
     case 'n':
         result(fun.findRootNewton(left, threshold, calc_limit));
