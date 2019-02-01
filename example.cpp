@@ -25,5 +25,7 @@ int main(){
     result(f1.findRootBisection(-1, 7, 1e-9, 1e7));
     cout << "f2: ";
     result(f2.findRootNewton(3, 1e-9, 1e7));
-    result(f2.findIntersectionBisection(&f2, 1, 2.1, 1e-9, 1e7));
+    SumOfDerivableFunctions f3 = SumOfDerivableFunctions(&e, &f1, true);
+    result(f3.findRootNewton(3, 1e-9, 1e7));
+    // Calculate the intersection between e^x and (1/2x^2-4x+7)^5
 }

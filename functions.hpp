@@ -128,6 +128,7 @@ class CompositeFunction : public Function
 class DerivableCompositeFunction : public DerivableFunction
 {
   protected:
+
     DerivableFunction *f;
     DerivableFunction *g;
 
@@ -170,6 +171,16 @@ class Cosine : public DerivableFunction
     double derivative(double x)
     {
         return -sin(x);
+    }
+};
+
+class Tangent: public DerivableFunction{
+    public:
+    double func(double x){
+        return tan(x);
+    }
+    double derivative(double x){
+        return 1.0/(cos(x)*cos(x));
     }
 };
 
@@ -306,5 +317,108 @@ class Cubic : public Polynomial
         coefficients[1] = c;
         coefficients[2] = b;
         coefficients[3] = a;
+    }
+};
+
+class SumOfFunctions: public Function{
+    private:
+    Function *f1;
+    Function *f2;
+    bool difference;
+    public:
+    SumOfFunctions(Function *first, Function *second){
+        f1=first;
+        f2=second;
+        difference=false;
+    }
+    SumOfFunctions(Function *first, Function *second, bool is_difference){
+        f1=first;
+        f2=second;
+        difference = is_difference;
+    }
+    double func(double x){
+        return f1->func(x)+(difference?-1.0:1.0)*f2->func(x);
+    }
+};
+
+class SumOfDerivableFunctions: public DerivableFunction{
+    protected:
+    DerivableFunction *f1;
+    DerivableFunction *f2;
+    bool difference;
+    public:
+    SumOfDerivableFunctions(DerivableFunction *first, DerivableFunction *second){
+        f1=first;
+        f2=second;
+        difference=false;
+    }
+    SumOfDerivableFunctions(DerivableFunction *first, DerivableFunction *second, bool is_difference){
+        f1=first;
+        f2=second;
+        difference = is_difference;
+    }
+    double func(double x){
+        return f1->func(x)+(difference?-1.0:1.0)*f2->func(x);
+    }
+    double derivative(double x){
+        return f1->derivative(x)+(difference?-1.0:1.0)*f2->derivative(x);
+    }
+};
+
+class ProductOfFunctions: public Function{
+    private:
+    Function *f1;
+    Function *f2;
+    public:
+    ProductOfFunctions(Function *first, Function *second){
+        f1=first;
+        f2=second;
+    }
+    double func(double x){
+        return f1->func(x)*f2->func(x);
+    }
+};
+
+class ProductOfDerivableFunctions: public DerivableFunction{
+    protected:
+    DerivableFunction *f1;
+    DerivableFunction *f2;
+    public:
+    ProductOfDerivableFunctions(DerivableFunction *first, DerivableFunction *second){
+        f1=first;
+        f2=second;
+    }
+    double func(double x){
+        return f1->func(x)*f2->func(x);
+    }
+    double derivative(double x){
+        return f1->derivative(x)*f2->func(x)+f2->derivative(x)*f1->func(x);
+    }
+};
+
+class ReciprocalFunction: public Function{
+    private:
+    Function *f;
+    public:
+    ReciprocalFunction(Function *function){
+        f=function;
+    }
+    double func(double x){
+        return 1.0/f->func(x);
+    }
+};
+
+class ReciprocalDerivableFunction: public DerivableFunction{
+    protected:
+    DerivableFunction *f;
+    public:
+    ReciprocalDerivableFunction(DerivableFunction *function){
+        f=function;
+    }
+    double func(double x){
+        return 1.0/f1->func(x)*f2->func(x);
+    }
+    double derivative(double x){
+        return -(f->derivative(x))/(f->func(x)*f->func(x));
     }
 };

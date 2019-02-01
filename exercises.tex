@@ -1,0 +1,136 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[top=2cm,bottom=2cm,left=2cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+% \usepackage{listings}
+
+% \lstset{
+%   language=C++,                % choose the language of the code
+%   numbers=left,                   % where to put the line-numbers
+%   stepnumber=1,                   % the step between two line-numbers.        
+%   numbersep=5pt,                  % how far the line-numbers are from the code
+%   showspaces=false,               % show spaces adding particular underscores
+%   showstringspaces=false,         % underline spaces within strings
+%   showtabs=false,                 % show tabs within strings adding particular underscores
+%   tabsize=2,                      % sets default tabsize to 2 spaces
+%   captionpos=b,                   % sets the caption-position to bottom
+%   breaklines=true,                % sets automatic line breaking
+%   breakatwhitespace=true,         % sets if automatic breaks should only happen at whitespace
+%   title=\lstname,                 % show the filename of files included with \lstinputlisting;
+% }
+
+\title{Numerical Methods exercises}
+\author{Margherita Billi, Filippo Raspanti, Eugenio Tampieri}
+%\renewcommand{\arraystretch}{1.5}
+\begin{document}
+\maketitle
+\section{Exercise 1}
+\subsection{Part 1}
+\par We are given the function $f(x)=2x^3-3x^2-12x+1$, whose derivative is $f'(x)=6x^2-6x-12$.
+\par We have studied the first derivative in order to find and classificate the maximum and minimum values of the function using the Fermat’s theorem and the second consequence of the Lagrange’s theorem.
+We’ve thus found that there is a maximum in the point M(-1;8) and a minimum in m(2;-19).
+Provided that $\lim\limits_{x \to -\infty} 2x^3-3x^2-12x+1 = -\infty$, $\lim\limits_{x \to +\infty} 2x^3-3x^2-12x+1 = +\infty$ and that the function is increasing in the interval $]-\infty;-1[$ and in $]+2;+\infty[$ and decreasing in the interval $]-1;+2[$ we are able to state that the function intersects the $x$ axis in only 3 points.
+\subsection{Part 2}
+\par The code for this exercise can be found at \url{https://gitlab.com/eutampieri/calcolo-numerico} and is not included in this paper because it's over 300 lines long. In that repo there are, apart from this paper, three source files: \verb|numerical_methods.cpp|, \verb|funcgen.c| and \verb|functions.hpp|.
+\par The first is the command line interface through which the user chooses a method and the bounds, the second is a tool to save into a file the coefficients for a polynomial function and the latter is the mathematical engine. It abstracts away the root finding methods for polynomial, logarithmic, exponential, composite and goniometric functions.
+\subsection{Part 3}
+\subsubsection{Section a}
+By using the Bisection method to find the roots of the previously given function in the interval $[-2;4]$ the output is:
+\begin{verbatim}
+--- Numerical Methods ---
+Leftmost point of the interval: -2
+Rightmost point of the interval: 4
+=========================
+     Choose a method     
+=========================
+	[b] for bisection method
+	[s] for the secant method
+	[n] for Newton's method
+Your choice: b
+A root has been found in 28 iterations: f(3.28183)=-3.52763e-07
+\end{verbatim}
+\par Using the bisection method we've found the rightmost solution in 28 iterations.
+\par By applying the Secants method to find the roots of the previously given function in the interval $[-2;4]$ the output is:
+\begin{verbatim}
+--- Numerical Methods ---
+Leftmost point of the interval: -2
+Rightmost point of the interval: 4
+=========================
+     Choose a method     
+=========================
+	[b] for bisection method
+	[s] for the secant method
+	[n] for Newton's method
+Your choice: s
+A root has been found in 9 iterations: f(-1.86358)=1.06581e-14
+\end{verbatim}
+\par The algorithm has successfully found the leftmost root in 9 iterations.
+\subsubsection{Section b}
+\par First we notice that in the given interval ($[-2;-1]$) the function has only one root.
+\par First we notice that in the given interval ($[-2;-1]$) the function has only one root.
+\par By running the program we get the following results:
+\begin{verbatim}
+--- Numerical Methods ---
+Leftmost point of the interval: -2
+Rightmost point of the interval: -1
+=========================
+     Choose a method     
+=========================
+	[b] for bisection method
+	[s] for the secant method
+	[n] for Newton's method
+Your choice: b
+A root has been found in 27 iterations: f(-1.86358)=-6.4629e-08
+\end{verbatim}
+\begin{verbatim}
+--- Numerical Methods ---
+Leftmost point of the interval: -1
+Rightmost point of the interval: -2
+=========================
+     Choose a method     
+=========================
+    [b] for bisection method
+    [s] for the secant method
+    [n] for Newton's method
+Your choice: s
+A root has been found in 7 iterations: f(-1.86358)=0    
+\end{verbatim}
+\subsubsection{Section c}
+Results after running the algorithm:
+\begin{enumerate}
+    \item $x_0=-2$: \verb|A root has been found in 4 iterations: f(-1.86358)=-7.10543e-15|
+    \item $x_0=-1,5$: \verb|A root has been found in 4 iterations: f(-1.86358)=0|
+    \item $x_0=-1$: \verb|A root has been found in 1 iterations: f(-inf)=nan|
+    \item $x_0=0$: \verb|A root has been found in 3 iterations: f(0.0817535)=-6.31051e-13|
+\end{enumerate}
+\subsection{Part 4}
+     \begin{enumerate}
+          \item For the bisection method, the interval must be wide at least $4,450\cdot 10^{-308}$ and at most $8,989\cdot 10^307$, because the \texttt{double} type used in this implementation (an IEEE-754 64 bit floating point) can hold a value $x \in [2,225\cdot 10^{-308};1,798\cdot10^{308}]$. Apart from that and provided that the solution is in the given interval, bisection is guaranteed to converge to the solution.
+          \item From our data we can state that Newton's method is the fastest, followed by the secants one and by the bisection method. Moreover, looking at the outputs we notice that the secants algorithm is almost four times faster than the bisection one.
+          \item The result can be explained taking into account the fact that $f'(-1)$=0, thus we perform a division by zero, that yelds $-\infty$.
+     \end{enumerate}
+\section{Exercise 2}
+     \subsection{Part 1}
+          \par We are given the function $f(x)=x^3-7x+9$, whose first derivative is $f'(x)=3x^2-7$. We have studied the first derivative in order to find and classify the maximum and minimum values of the function using the Fermat's theorem and the second consequence of the Lagrange's theorem. We have found that there is a point of maximum in $M(-1,53;16,13)$ and a point of minimum in $m(1,53;1,87)$.
+          \par Provided that $\lim\limits_{x \to -\infty} x^3-7x+9 = -\infty$, that $\lim\limits_{x \to +\infty} x^3-7x+9 = +\infty$, that the function is increasing in the intervals $]-\infty;-1,53[$ and $]1,53;+\infty[$ and decreasing in the interval $]-1,53;+1,53[$ and that the minimum and the maximum are both positive ($f(x_{min})>0$, $f(x_{max})>0$); we can state that the function intersects only in one point the X axis.
+     \subsection{Part 2}
+          \par There's no need to modify the code, nevertheless you have to run again \verb|funcgen| to update the coefficients.
+     \subsection{Part 3}
+          \begin{enumerate}
+               \item \begin{enumerate}
+                    \item $x_0=1\cdot 10^3$: \verb|A root has been found in 28 iterations: f(-3.14092)=-1.87406e-11|
+                    \item $x_0= - 1\cdot 10^3$: \verb|A root has been found in 19 iterations: f(-3.14092)=-3.55271e-15|
+                    \item $x_0=7$: \verb|A root has been found in 45 iterations: f(-3.14092)=-3.55271e-15|
+                    \item $x_0=42$: \verb|A root has been found in 29 iterations: f(-3.14092)=-4.14637e-10|
+                    \item $x_0=14299$: \verb|A root has been found in 92 iterations: f(-3.14092)=-4.37765e-11|
+                    \item $x_0=-10$: \verb|A root has been found in 7 iterations: f(-3.14092)=-8.41737e-10|
+               \end{enumerate}
+               \item Rightmost point: $-10$, leftmost point: $2$, output of the bisection method: \texttt{A root has been found in 29 iterations: f(-3.14092)=2.30148e-07}
+               \item Rightmost point: $-10$, leftmost point: $2$, output of the secants method: \texttt{A root has been found in 37 iterations: f(-3.14092)=-3.19744e-14}
+          \end{enumerate}
+     \subsection{Part 4}
+          \begin{enumerate}
+               \item Newton method converges, assumed that the initial guess is not a stationary point or that a stationary isn't reached during the iterations.
+               \item If we consider the initial guess as the rightmost point of the interval, then in the provided example ($x \in [-10;2]$) Newton's method is the fastest (7 iterations), followed by the bisection method (29 iterations) and by the secants method (37 iterations), thus not confirming the observations made in the previous exercise. Moreover, Newton's method doesn't seem to converge in a time related to the distance from the root: in facts, the time that it takes with an initial guess of 42 is less than the time needed to reach a root from an initial guess of 7.
+          \end{enumerate}
+\end{document}
