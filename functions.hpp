@@ -422,3 +422,13 @@ class ReciprocalDerivableFunction: public DerivableFunction{
         return -(f->derivative(x))/(f->func(x)*f->func(x));
     }
 };
+
+class AbsoluteValue: public DerivableFunction{
+    public:
+    double func(double x){
+        return (x<0?-1.0:1.0)*x;
+    }
+    double derivative(double x){
+        return (x<0?-1.0:1.0);
+    }
+};
