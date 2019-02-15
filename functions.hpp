@@ -76,7 +76,7 @@ class Function
     }
 };
 
-class DerivableFunction : public Function
+class DifferentiableFunction : public Function
 {
   public:
     virtual double derivative(double x) = 0;
@@ -125,15 +125,15 @@ class CompositeFunction : public Function
     }
 };
 
-class DerivableCompositeFunction : public DerivableFunction
+class DifferentiableCompositeFunction : public DifferentiableFunction
 {
   protected:
 
-    DerivableFunction *f;
-    DerivableFunction *g;
+    DifferentiableFunction *f;
+    DifferentiableFunction *g;
 
   public:
-    DerivableCompositeFunction(DerivableFunction *first, DerivableFunction *second)
+    DifferentiableCompositeFunction(DifferentiableFunction *first, DifferentiableFunction *second)
     {
         f = first;
         g = second;
@@ -148,7 +148,7 @@ class DerivableCompositeFunction : public DerivableFunction
     }
 };
 
-class Sine : public DerivableFunction
+class Sine : public DifferentiableFunction
 {
   public:
     double func(double x)
@@ -161,7 +161,7 @@ class Sine : public DerivableFunction
     }
 };
 
-class Cosine : public DerivableFunction
+class Cosine : public DifferentiableFunction
 {
   public:
     double func(double x)
@@ -174,7 +174,7 @@ class Cosine : public DerivableFunction
     }
 };
 
-class Tangent: public DerivableFunction{
+class Tangent: public DifferentiableFunction{
     public:
     double func(double x){
         return tan(x);
@@ -184,7 +184,7 @@ class Tangent: public DerivableFunction{
     }
 };
 
-class Exponential : public DerivableFunction
+class Exponential : public DifferentiableFunction
 {
   private:
     double base;
@@ -208,7 +208,7 @@ class Exponential : public DerivableFunction
     }
 };
 
-class Logarithmic : public DerivableFunction
+class Logarithmic : public DifferentiableFunction
 {
   private:
     double base;
@@ -231,7 +231,7 @@ class Logarithmic : public DerivableFunction
         base = b;
     }
 };
-class Polynomial : public DerivableFunction
+class Polynomial : public DifferentiableFunction
 {
   protected:
     double coefficients[11];
@@ -341,18 +341,18 @@ class SumOfFunctions: public Function{
     }
 };
 
-class SumOfDerivableFunctions: public DerivableFunction{
+class SumOfDifferentiableFunctions: public DifferentiableFunction{
     protected:
-    DerivableFunction *f1;
-    DerivableFunction *f2;
+    DifferentiableFunction *f1;
+    DifferentiableFunction *f2;
     bool difference;
     public:
-    SumOfDerivableFunctions(DerivableFunction *first, DerivableFunction *second){
+    SumOfDifferentiableFunctions(DifferentiableFunction *first, DifferentiableFunction *second){
         f1=first;
         f2=second;
         difference=false;
     }
-    SumOfDerivableFunctions(DerivableFunction *first, DerivableFunction *second, bool is_difference){
+    SumOfDifferentiableFunctions(DifferentiableFunction *first, DifferentiableFunction *second, bool is_difference){
         f1=first;
         f2=second;
         difference = is_difference;
@@ -379,12 +379,12 @@ class ProductOfFunctions: public Function{
     }
 };
 
-class ProductOfDerivableFunctions: public DerivableFunction{
+class ProductOfDifferentiableFunctions: public DifferentiableFunction{
     protected:
-    DerivableFunction *f1;
-    DerivableFunction *f2;
+    DifferentiableFunction *f1;
+    DifferentiableFunction *f2;
     public:
-    ProductOfDerivableFunctions(DerivableFunction *first, DerivableFunction *second){
+    ProductOfDifferentiableFunctions(DifferentiableFunction *first, DifferentiableFunction *second){
         f1=first;
         f2=second;
     }
@@ -408,11 +408,11 @@ class ReciprocalFunction: public Function{
     }
 };
 
-class ReciprocalDerivableFunction: public DerivableFunction{
+class ReciprocalDifferentiableFunction: public DifferentiableFunction{
     protected:
-    DerivableFunction *f;
+    DifferentiableFunction *f;
     public:
-    ReciprocalDerivableFunction(DerivableFunction *function){
+    ReciprocalDifferentiableFunction(DifferentiableFunction *function){
         f=function;
     }
     double func(double x){
@@ -423,7 +423,7 @@ class ReciprocalDerivableFunction: public DerivableFunction{
     }
 };
 
-class AbsoluteValue: public DerivableFunction{
+class AbsoluteValue: public DifferentiableFunction{
     public:
     double func(double x){
         return (x<0?-1.0:1.0)*x;
